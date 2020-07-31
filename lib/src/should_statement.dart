@@ -98,7 +98,6 @@ class BaseShouldObject {
         print(st);
       }
     }
-
   }
 
   Cap instantiate<T>() {
