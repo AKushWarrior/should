@@ -1,4 +1,4 @@
-## 0.1.1 (July 30, 2020)
+## 0.1.1 & 0.1.1+1 (July 30, 2020)
 - Initial Version
 - Includes support for:
     - Functions 

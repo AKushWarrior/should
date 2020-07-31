@@ -64,8 +64,6 @@ class BaseShouldObject {
       }
     }
 
-    StackTrace trace;
-
     if (cond == false) {
       var objString = _obj is String ? "'$_obj'" : '$_obj';
       var beginning = premods.isEmpty
@@ -77,7 +75,6 @@ class BaseShouldObject {
       try {
         throw Error();
       } catch (err, st) {
-        trace = st;
         var str = st.toString();
         var objLine = str.split('\n')[2];
         var numbers = objLine.split(':')
