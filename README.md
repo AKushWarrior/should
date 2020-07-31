@@ -68,13 +68,10 @@ the coming weeks, as should > expect (IMO) for many of the same reasons as shoul
 - Cleaner code documentation and comments
 - Simple support for external integration 
 
-## Notes
-
-
 ## Features and bugs
 
 Please file feature requests and bugs at the [issue tracker][tracker].
 
-[tracker]: http://example.com/issues/replaceme
+[tracker]: https://github.com/AKushWarrior/should/issues
 
 ###### This library is licensed under the MPL 2.0.
