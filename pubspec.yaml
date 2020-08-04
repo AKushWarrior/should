@@ -1,6 +1,6 @@
 name: should
 description: A simple, extensible, readable BDD assertion library. Supports introspective terminal output.
-version: 0.1.2
+version: 0.1.2+1
 homepage: https://github.com/AKushWarrior/should
 
 environment:

@@ -1,7 +1,8 @@
-## 0.1.2 (July 31, 2020)
+## 0.1.2-0.1.2+1 (July 31, 2020)
 - Added support for `and`
 - Added protected signature
 - Changed up internals to better adhere to typing
+- Better logs
 
 ## 0.1.1 to 0.1.1+2 (July 30, 2020)
 - Initial Version
