@@ -9,6 +9,7 @@ void main() {
     setUp(() {
       a = 2;
       b = 2.1;
+      should.errorOnAssert = true;
     });
 
     test('Type tests', () {
@@ -28,6 +29,7 @@ void main() {
     test('Grammar tests', () {
       a.should.not.equal(0);
       a.unless(true).should.equal(0);
+      a.should.equal(0).and.should.be<double>();
     });
   });
 }

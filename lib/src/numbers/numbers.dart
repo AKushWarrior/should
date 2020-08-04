@@ -9,8 +9,8 @@ class BaseShouldNum extends BaseShouldObject {
 
   static var _base;
 
-  Cap beGreaterThan(num other) {
-    var cap = Cap((obj) {
+  Cap<num> beGreaterThan(num other) {
+    var cap = Cap<num>((obj) {
       num n = obj;
       return n > other;
     }, this, 'be greater than other');
@@ -18,8 +18,8 @@ class BaseShouldNum extends BaseShouldObject {
     return cap;
   }
 
-  Cap beLessThan(num other) {
-    var cap = Cap((obj) {
+  Cap<num> beLessThan(num other) {
+    var cap = Cap<num>((obj) {
       num n = obj;
       return n < other;
     }, this, 'be less than other');
@@ -27,8 +27,8 @@ class BaseShouldNum extends BaseShouldObject {
     return cap;
   }
 
-  Cap beLessThanOrEqualTo(num other) {
-    var cap = Cap((obj) {
+  Cap<num> beLessThanOrEqualTo(num other) {
+    var cap = Cap<num>((obj) {
       num n = obj;
       return n <= other;
     }, this, 'be less than or equal to other');
@@ -36,8 +36,8 @@ class BaseShouldNum extends BaseShouldObject {
     return cap;
   }
 
-  Cap beGreaterThanOrEqualTo(num other) {
-    var cap = Cap((obj) {
+  Cap<num> beGreaterThanOrEqualTo(num other) {
+    var cap = Cap<num>((obj) {
       num n = obj;
       return n >= other;
     }, this, 'be greater than or equal to other');
@@ -45,8 +45,8 @@ class BaseShouldNum extends BaseShouldObject {
     return cap;
   }
 
-  Cap get bePowerOfTwo {
-    var cap = Cap((obj) {
+  Cap<num> get bePowerOfTwo {
+    var cap = Cap<num>((obj) {
       num n = obj;
       if (!(n % 1 == 0.0)) {
         return false;
@@ -60,8 +60,8 @@ class BaseShouldNum extends BaseShouldObject {
 
   double _log(int base, int of) => log(of) / log(base);
 
-  Cap get bePrime {
-    var cap = Cap((obj) {
+  Cap<num> get bePrime {
+    var cap = Cap<num>((obj) {
       num n = obj;
       if (!(n % 1 == 0.0)) {
         return false;
@@ -105,8 +105,8 @@ class BaseShouldNum extends BaseShouldObject {
     return cap;
   }
 
-  Cap get beMathematicalInt {
-    var cap = Cap((obj) {
+  Cap<num> get beMathematicalInt {
+    var cap = Cap<num>((obj) {
       num n = obj;
       return n % 1 == 0.0;
     }, this, 'be a mathematical integer');

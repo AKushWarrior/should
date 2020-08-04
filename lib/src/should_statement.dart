@@ -1,20 +1,21 @@
 import 'dart:collection';
+import 'package:stack_trace/stack_trace.dart';
+
 import 'error.dart';
+import 'package:meta/meta.dart';
 
 part 'modifier.dart';
 
 part 'cap.dart';
 
-part 'transition.dart';
-
-extension Statement on Object {
-  BaseShouldObject get should {
-    BaseShouldObject._base = BaseShouldObject(this, null);
+extension Statement<X extends Object> on X {
+  BaseShouldObject<X> get should {
+    BaseShouldObject._base = BaseShouldObject<X>(this, null);
     return BaseShouldObject._base;
   }
 
   PreModifier unless(bool cond) {
-    BaseShouldObject._base ??= BaseShouldObject(this, null);
+    BaseShouldObject._base = BaseShouldObject<X>(this, null);
     var mod = PreModifier((bool x) {
       if (cond) {
         return true;
@@ -31,18 +32,19 @@ extension PreStatement on PreModifier {
   }
 }
 
-class BaseShouldObject {
+class BaseShouldObject<X> {
   final _obj;
   final BaseShouldObject parent;
   String toStr = 'base should statement';
 
   BaseShouldObject(this._obj, this.parent, [this.toStr]);
 
-  Object get obj => _obj;
+  X get obj => _obj;
 
   static BaseShouldObject _base;
 
-  void finalEval(Cap cap) {
+  @protected
+  void finalEval(Cap<X> cap) {
     var mods = Queue<Modifier>();
     var cur = cap.parent;
     while (cur != null) {
@@ -65,6 +67,7 @@ class BaseShouldObject {
     }
 
     if (cond == false) {
+      StackTrace preserve;
       var objString = _obj is String ? "'$_obj'" : '$_obj';
       var beginning = premods.isEmpty
           ? '$objString should'
@@ -75,6 +78,7 @@ class BaseShouldObject {
       try {
         throw Error();
       } catch (err, st) {
+        preserve = st;
         var str = st.toString();
         var objLine = str.split('\n')[2];
         var numbers = objLine.split(':')
@@ -91,37 +95,50 @@ class BaseShouldObject {
       logError('Your should assertion failed on line $lineNum:'
           ' $beginning$spacer$mods ${cap.toStr}'
           '\nSee the StackTrace below for more details...');
-      assert(cond);
-      try {
+      if (should.errorOnAssert) {
         throw AssertionError();
-      } catch (err, st) {
-        print(st);
+      } else {
+        var tl = Trace.from(preserve).terse.toString().split('\n');
+        tl.removeRange(0, 2);
+        print(tl.join('\n'));
       }
     }
   }
 
-  Cap instantiate<T>() {
-    var be = Cap((obj) => obj.runtimeType == T, this,
+  Cap<X> instantiate<T>() {
+    var be = Cap<X>((obj) => obj.runtimeType == T, this,
         'be an instantiation of Type $T (and not a subclass etc.)');
     finalEval(be);
     return be;
   }
 
-  Cap beSubclassOf<T>() {
-    var be = Cap((obj) => obj.runtimeType != T && obj is T, this,
+  Cap<X> beSubclassOf<T>() {
+    var be = Cap<X>((obj) => obj.runtimeType != T && obj is T, this,
         'be subclass of Type $T');
     finalEval(be);
     return be;
   }
 
-  Cap be<T>() {
-    var be = Cap((obj) => obj is T, this, 'be Type $T');
+  Cap<X> be<T>() {
+    var be = Cap<X>((obj) => obj is T, this, 'be Type $T');
     finalEval(be);
     return be;
   }
 
-  Cap equal(Object other) {
-    var equal = Cap((obj) => obj == other, this, 'be equal to $other');
+  Cap<X> equal(X other) {
+    var equal = Cap<X>((obj) => obj == other, this, 'be equal to $other');
+    finalEval(equal);
+    return equal;
+  }
+
+  Cap<X> equalOneOf(Iterable<X> other) {
+    var equal = Cap<X>((obj) => other.contains(obj), this, 'be equal to one of $other');
+    finalEval(equal);
+    return equal;
+  }
+
+  Cap<X> equalAllOf(Iterable<X> other) {
+    var equal = Cap<X>((obj) => other.every((e) => e == obj), this, 'be equal to all of $other');
     finalEval(equal);
     return equal;
   }
@@ -136,3 +153,8 @@ class BaseShouldObject {
   @override
   void noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
+
+class should {
+  static bool errorOnAssert = false;
+}
+

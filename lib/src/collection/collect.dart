@@ -17,8 +17,8 @@ class BaseShouldIterable<Y> extends BaseShouldObject {
     return not;
   }
 
-  Cap haveLengthOf(int l) {
-    var cap = Cap((obj) {
+  Cap<Iterable<Y>> haveLengthOf(int l) {
+    var cap = Cap<Iterable<Y>>((obj) {
       Iterable temp = obj;
       return temp.length == l;
     }, this, 'have a length of $l');
@@ -26,8 +26,8 @@ class BaseShouldIterable<Y> extends BaseShouldObject {
     return cap;
   }
 
-  Cap get beEmpty {
-    var cap = Cap((obj) {
+  Cap<Iterable<Y>> get beEmpty {
+    var cap = Cap<Iterable<Y>>((obj) {
       Iterable temp = obj;
       return temp.isEmpty;
     }, this, 'be empty');
@@ -35,8 +35,8 @@ class BaseShouldIterable<Y> extends BaseShouldObject {
     return cap;
   }
 
-  Cap contain(Y element) {
-    var cap = Cap((obj) {
+  Cap<Iterable<Y>> contain(Y element) {
+    var cap = Cap<Iterable<Y>>((obj) {
       Iterable temp = obj;
       return temp.contains(element);
     }, this, 'be empty');

@@ -17,8 +17,8 @@ class BaseShouldFunction<Y> extends BaseShouldObject {
     return not;
   }
 
-  Cap throwType<err>() {
-    var cap = Cap((obj) {
+  Cap<shouldFunc<Y>> throwType<err>() {
+    var cap = Cap<shouldFunc<Y>>((obj) {
       Function n = obj;
       try {
         n();
@@ -34,8 +34,8 @@ class BaseShouldFunction<Y> extends BaseShouldObject {
     return cap;
   }
 
-  Cap evaluateTo(Y result) {
-    var cap = Cap((obj) {
+  Cap<shouldFunc<Y>> evaluateTo(Y result) {
+    var cap = Cap<shouldFunc<Y>>((obj) {
       Function n = obj;
       try {
         Y attempt = n();

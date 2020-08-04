@@ -5,17 +5,17 @@ void main() {
 }
 
 void stringExample() {
-  var word = 'word';
+  var z = 'word';
 
-  word.should.beBlank; //uh oh
+  z.should.beBlank; //uh oh
 
-  word.should.beValidAscii; //Latin1 also works
+  z.should.beValidAscii; //Latin1 also works
 
-  word.should.not.haveLengthOf(5);
+  z.should.not.haveLengthOf(5);
 
-  word.should.not.beValidInt; //double also works
+  z.should.not.beValidInt.and.should.not.beBlank; //double also works
 
-  word.should.equal('word');
+  z.should.equal('word');
 
   print('evaluated 5 should statements');
 }

@@ -9,8 +9,8 @@ class BaseShouldString extends BaseShouldObject {
 
   static var _base;
 
-  Cap get beBlank {
-    var cap = Cap((obj) {
+  Cap<String> get beBlank {
+    var cap = Cap<String>((obj) {
       String temp = obj;
       return temp.isBlank;
     }, this, 'be blank (either length=0 or all whitespace)');
@@ -18,8 +18,8 @@ class BaseShouldString extends BaseShouldObject {
     return cap;
   }
 
-  Cap get beValidAscii {
-    var cap = Cap((obj) {
+  Cap<String> get beValidAscii {
+    var cap = Cap<String>((obj) {
       String temp = obj;
       return temp.isAscii;
     }, this, 'be a valid ascii String');
@@ -27,8 +27,8 @@ class BaseShouldString extends BaseShouldObject {
     return cap;
   }
 
-  Cap get beValidLatin1 {
-    var cap = Cap((obj) {
+  Cap<String> get beValidLatin1 {
+    var cap = Cap<String>((obj) {
       String temp = obj;
       return temp.isLatin1;
     }, this, 'be a valid Latin1 String');
@@ -36,8 +36,8 @@ class BaseShouldString extends BaseShouldObject {
     return cap;
   }
 
-  Cap get beValidInt {
-    var cap = Cap((obj) {
+  Cap<String> get beValidInt {
+    var cap = Cap<String>((obj) {
       String temp = obj;
       return temp.isInt;
     }, this, 'be a valid integer');
@@ -45,8 +45,8 @@ class BaseShouldString extends BaseShouldObject {
     return cap;
   }
 
-  Cap get beValidDouble {
-    var cap = Cap((obj) {
+  Cap<String> get beValidDouble {
+    var cap = Cap<String>((obj) {
       String temp = obj;
       return temp.isDouble;
     }, this, 'be a valid double');
@@ -54,8 +54,8 @@ class BaseShouldString extends BaseShouldObject {
     return cap;
   }
 
-  Cap haveLengthOf(int l) {
-    var cap = Cap((obj) {
+  Cap<String> haveLengthOf(int l) {
+    var cap = Cap<String>((obj) {
       String temp = obj;
       return temp.length == l;
     }, this, 'have a length of $l');
