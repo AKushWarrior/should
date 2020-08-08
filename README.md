@@ -57,7 +57,7 @@ File an issue if you think there's a matcher type we should support! Or, write y
 To write a custom matcher, you'll have to write an extension over BaseShouldObject. Suppose we wanted to check if a num
 is negative. We would write an extension like this:
 ```dart
-extension BaseShouldNum on BaseShouldObject<num> {
+extension ShouldNumExtension on BaseShouldObject<num> {
   Cap<num> get beNegative {
     var cap = Cap<num>((obj) {
       num n = obj as num; //cast dynamic object to num
@@ -70,8 +70,9 @@ extension BaseShouldNum on BaseShouldObject<num> {
 ```
 There's a few critical pieces here. the declaration starting with `var cap =` is creating a `Cap` object, which is the
 internal representation of a matcher. Cap takes three parameters: a `bool Function(dynamic)`, a `BaseShouldObject`, and
-a String. The first is your business logic, as seen above. The second is internal; it should **always be `this`**. The last
+a `String`. The first is your business logic, as seen above. The second is internal; it should **always be `this`**. The last
 is the debugging description of this matcher. Imagine the matcher in a sentence to come up with this: `2 should (be negative)`.
+To adapt this sample to another type is easy: simply replace the word `num` wherever it appears with your own type.
 
 We could then use our matcher anywhere that both 'package:should/should.dart' and the extension from above have been imported.
 ```dart
