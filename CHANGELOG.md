@@ -1,4 +1,4 @@
-## 1.0.0 (August 7, 2020)
+## 1.0.0 - 1.0.0+2 (August 7, 2020)
 - Finished `and` support
 - Switched from extension methods to normal methods.
     - Less sexy, but much less buggy.

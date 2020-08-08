@@ -70,8 +70,8 @@ extension BaseShouldNum on BaseShouldObject<num> {
 ```
 There's a few critical pieces here. the declaration starting with `var cap =` is creating a `Cap` object, which is the
 internal representation of a matcher. Cap takes three parameters: a `bool Function(dynamic)`, a `BaseShouldObject`, and
-a String. The first is your business logic, as seen above. The second is internal; it should **always be null**. The last
-is the debugging description of this matcher. Imagine the matcher in a sentence to come up with this: `2 should _____`.
+a String. The first is your business logic, as seen above. The second is internal; it should **always be `this`**. The last
+is the debugging description of this matcher. Imagine the matcher in a sentence to come up with this: `2 should (be negative)`.
 
 We could then use our matcher anywhere that both 'package:should/should.dart' and the extension from above have been imported.
 ```dart
