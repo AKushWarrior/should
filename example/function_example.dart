@@ -1,3 +1,4 @@
+import 'package:should/should.dart';
 import 'package:should/should_function.dart';
 
 void main() {
@@ -7,9 +8,9 @@ void main() {
 void functionExample() {
   var func = () => 2 + 2;
 
-  func.should.evaluateTo(4);
+  requireThat(func).evaluateTo(4);
 
-  func.should.throwType<Error>();
+  requireThat(func).throwType<Error>();
 
   print('evaluated 2 should statements');
 }

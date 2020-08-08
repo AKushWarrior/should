@@ -13,23 +13,27 @@ void main() {
     });
 
     test('Type tests', () {
-      a.should.not.equal(b);
+      requireThat(a).be<int>();
+      requireThat(a).be<num>();
+      requireThat(a).beSubclassOf<num>();
+      requireThat(a).instantiate<int>();
 
-      a.should.be<int>();
-      a.should.be<num>();
-      a.should.beSubclassOf<num>();
-      a.should.instantiate<int>();
-
-      b.should.be<double>();
-      b.should.be<num>();
-      b.should.beSubclassOf<num>();
-      b.should.instantiate<double>();
+      requireThat(a).be<double>();
+      requireThat(a).be<num>();
+      requireThat(a).beSubclassOf<num>();
+      requireThat(a).instantiate<double>();
     });
 
     test('Grammar tests', () {
-      a.should.not.equal(0);
-      a.unless(true).should.equal(0);
-      a.should.equal(0).and.should.be<double>();
+      requireThat(a).not.equal(0);
+      unless(true).requireThat(a).equal(0);
+      requireThat(a).equal(0).and.be<double>();
+    });
+
+    test('Equality tests', () {
+      requireThat(a).not.equal(0);
+      requireThat(a).equal(2.0);
+      requireThat(a).equalOneOf([2, 1, 4, 8]);
     });
   });
 }

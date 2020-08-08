@@ -1,14 +1,7 @@
 import '../should_statement.dart';
 import 'package:dartx/dartx.dart';
 
-part 'modifier.dart';
-part 'extensions.dart';
-
-class BaseShouldString extends BaseShouldObject {
-  BaseShouldString(String obj, BaseShouldString parent) : super(obj, parent);
-
-  static var _base;
-
+extension BaseShouldString on BaseShouldObject<String> {
   Cap<String> get beBlank {
     var cap = Cap<String>((obj) {
       String temp = obj;
@@ -63,11 +56,12 @@ class BaseShouldString extends BaseShouldObject {
     return cap;
   }
 
-  @override
-  StringModifier get not {
-    var not = StringModifier((bool x) {
-      return !x;
-    }, obj, this, 'not');
-    return not;
+  Cap<String> contain(String seg) {
+    var cap = Cap<String>((obj) {
+      String temp = obj;
+      return temp.contains(seg);
+    }, this, 'contain the segment "$seg"');
+    finalEval(cap);
+    return cap;
   }
 }

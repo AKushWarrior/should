@@ -1,5 +1,5 @@
 A BDD-style assertion library for Dart developers. It has built-in support for most 
-common primitives, including Strings, Integers, Doubles, Functions, Iterables. It also
+common primitives, including Strings, Numbers Functions, Iterables. It also
 has type and equality checks built in for all objects.
 
 should is currently in production use in 4 of my projects, and is part of a larger testing framework. This
@@ -7,41 +7,76 @@ framework is un-named and under development for open-sourcing. should will, upon
 available both bundled and independently. 
 
 ## Usage
-should is based on extension methods. A simple example is below. For every available check, 
-see the example folder or API reference.
+should is based on OO chains; at the end of the assertion, a reflective operation captures each 'section' of the 
+assertion. A simple example:
 
 ```dart
-import 'package:should/should_num.dart';
+import 'package:should/should.dart';
 
 main() {
-   var ex = Foo();
-  
-   ex.should.be<Bar>(); //Foo != Bar and isn't a subclass of Bar --> error
-  
-   //but we can put in our own logic --> No error
-   ex.unless(dou is Foo).should.be<Bar>();
-  
-   //Foo is not a subclass of Bar and instantiates Foo --> No error
-   ex.should.not.beSubclassOf<Bar>().and.should.instantiate<Foo>();
-  
-   // There are three options for type checking:
-   // ex.should.be<Foo> is equivalent to: assert(dou is Foo).
-   // dou.should.beSubclass<Object> (dou is an instance of a subclass of given type)
-   // or dou.should.instantiate<Foo> (dou is a direct instance of given type).
-  
-   ex.should.equal(Foo()); //(Assuming that we overrode equals) --> no error
+  var dou = 2.0;
+
+  requireThat(dou).be<int>(); //oops, doubles aren't int --> error
+
+  //but we can put in our own logic --> No error
+  unless(dou is double).requireThat(dou).be<int>();
+
+  //doubles are not subclass of int --> No error
+  requireThat(dou).not.beSubclassOf<int>();
+
+  // There is three options for type checking:
+  // dou.should.be<int> is equivalent to: assert(dou is int).
+  // dou.should.beSubclass (dou is an instance of a subclass of given type)
+  // or dou.should.instantiate (dou is a direct instance of given type).
+
+  //2.0 == 2.0 && 2.0 != 0--> No error
+  requireThat(dou).equal(2.0).and.not.equalAllOf([0, 1, 2, 3, 4]);
+
+  print('evaluated 4 should statements');
 }
 ```
 
-## Object-level extensions vs. Specific extensions
-As you may have noticed browsing the examples and API reference, this library has matchers (`Cap`s) for all Objects as well as for
-specific types. The Object level-matchers **cannot** be imported along with any of the typed matchers. I agree that this
-is absurd; I have filed an issue at https://github.com/dart-lang/language/issues/1127 which details the block in making
-this work.
+## Matchers
+should has specific matchers beyond the general matchers displayed above. (It also has a few other general matchers not
+shown above). These are imported through specific libraries. For instance, if I wanted matchers for numbers as well as 
+Strings, I would import:
+```dart
+import 'package:should/should.dart';
+import 'package:should/should_num.dart';
+import 'package:should/should_string.dart';
+```
+Documentation for all the matchers will come soon. For now, you can check the API reference all the available matchers (
+`Cap` is our name for matchers). 
 
-All of the typed matchers can be used together or independently. Until that blocking issue is resolved,
-I plan on writing as many matchers as possible (and enabling users to write matchers) so the Object-level matchers
-are unnecessary.
+Matchers are currently available for: Numbers, Strings, Zero-parameter functions, and Iterables.
+Matchers are planned for: Parameterized spies, Streams, and Futures.
+
+File an issue if you think there's a matcher type we should support! Or, write your own (see below)!
+
+## Writing Custom Matchers
+To write a custom matcher, you'll have to write an extension over BaseShouldObject. Suppose we wanted to check if a num
+is negative. We would write an extension like this:
+```dart
+extension BaseShouldNum on BaseShouldObject<num> {
+  Cap<num> get beNegative {
+    var cap = Cap<num>((obj) {
+      num n = obj as num; //cast dynamic object to num
+      return n < 0;
+    }, this, 'be negative');
+    finalEval(cap);
+    return cap;
+  }
+}
+```
+There's a few critical pieces here. the declaration starting with `var cap =` is creating a `Cap` object, which is the
+internal representation of a matcher. Cap takes three parameters: a `bool Function(dynamic)`, a `BaseShouldObject`, and
+a String. The first is your business logic, as seen above. The second is internal; it should **always be null**. The last
+is the debugging description of this matcher. Imagine the matcher in a sentence to come up with this: `2 should _____`.
+
+We could then use our matcher anywhere that both 'package:should/should.dart' and the extension from above have been imported.
+```dart
+requireThat(-2).beNegative;
+```
 
 ## should vs. assert
 should is meant to be used as a drop-in replacement for `assert`. If assert
@@ -97,11 +132,10 @@ from above.
 
 ## TODO: Where We're Heading
 - More tests
-- Code generation for property level checking of custom classes
 - Conjunction support (see: should.js and/or) (`and` conjunctions complete)
 - More class integrations (Streams? Futures?)
 - Cleaner code documentation and comments
-- Simple support for external integration 
+- Simple Spies
 
 ## Features and bugs
 

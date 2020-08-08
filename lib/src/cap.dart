@@ -7,7 +7,7 @@ class Cap<T> {
 
   Cap(this.logic, this.parent, this.toStr);
 
-  T get and {
-    return parent.obj;
+  BaseShouldObject<T> get and {
+    return BaseShouldObject<T>(parent.obj, null);
   }
 }

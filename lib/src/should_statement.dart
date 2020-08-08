@@ -2,34 +2,25 @@ import 'dart:collection';
 import 'package:stack_trace/stack_trace.dart';
 
 import 'error.dart';
-import 'package:meta/meta.dart';
 
 part 'modifier.dart';
 
 part 'cap.dart';
 
-extension Statement<X extends Object> on X {
-  BaseShouldObject<X> get should {
-    BaseShouldObject._base = BaseShouldObject<X>(this, null);
-    return BaseShouldObject._base;
-  }
+BaseShouldObject<X> requireThat<X>(X obj) {
+  BaseShouldObject._base = BaseShouldObject<X>(obj, null);
 
-  PreModifier unless(bool cond) {
-    BaseShouldObject._base = BaseShouldObject<X>(this, null);
-    var mod = PreModifier((bool x) {
-      if (cond) {
-        return true;
-      }
-      return x;
-    }, this, BaseShouldObject._base, 'unless (cond: $cond)');
-    return mod;
-  }
+  return BaseShouldObject._base;
 }
 
-extension PreStatement on PreModifier {
-  BaseShouldObject get should {
-    return BaseShouldObject(obj, this);
-  }
+PreModifier unless(bool cond) {
+  var mod = PreModifier((bool x) {
+    if (cond) {
+      return true;
+    }
+    return x;
+  }, BaseShouldObject._base, 'unless (cond: $cond)');
+  return mod;
 }
 
 class BaseShouldObject<X> {
@@ -43,8 +34,7 @@ class BaseShouldObject<X> {
 
   static BaseShouldObject _base;
 
-  @protected
-  void finalEval(Cap<X> cap) {
+  void finalEval(Cap cap) {
     var mods = Queue<Modifier>();
     var cur = cap.parent;
     while (cur != null) {
@@ -125,26 +115,28 @@ class BaseShouldObject<X> {
     return be;
   }
 
-  Cap<X> equal(X other) {
+  Cap<X> equal(dynamic other) {
     var equal = Cap<X>((obj) => obj == other, this, 'be equal to $other');
     finalEval(equal);
     return equal;
   }
 
-  Cap<X> equalOneOf(Iterable<X> other) {
-    var equal = Cap<X>((obj) => other.contains(obj), this, 'be equal to one of $other');
+  Cap<X> equalOneOf(Iterable other) {
+    var equal =
+        Cap<X>((obj) => other.contains(obj), this, 'be equal to one of $other');
     finalEval(equal);
     return equal;
   }
 
-  Cap<X> equalAllOf(Iterable<X> other) {
-    var equal = Cap<X>((obj) => other.every((e) => e == obj), this, 'be equal to all of $other');
+  Cap<X> equalAllOf(Iterable other) {
+    var equal = Cap<X>((obj) => other.every((e) => e == obj), this,
+        'be equal to all of $other');
     finalEval(equal);
     return equal;
   }
 
-  Modifier get not {
-    var not = Modifier((bool x) {
+  Modifier<X> get not {
+    var not = Modifier<X>((bool x) {
       return !x;
     }, _obj, this, 'not');
     return not;
@@ -157,4 +149,3 @@ class BaseShouldObject<X> {
 class should {
   static bool errorOnAssert = false;
 }
-

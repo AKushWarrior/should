@@ -1,3 +1,4 @@
+import 'package:should/should.dart';
 import 'package:should/should_string.dart';
 
 void main() {
@@ -7,15 +8,15 @@ void main() {
 void stringExample() {
   var z = 'word';
 
-  z.should.beBlank; //uh oh
+  requireThat(z).beBlank; //uh oh
 
-  z.should.beValidAscii; //Latin1 also works
+  requireThat(z).beValidAscii; //Latin1 also works
 
-  z.should.not.haveLengthOf(5);
+  requireThat(z).not.haveLengthOf(5);
 
-  z.should.not.beValidInt.and.should.not.beBlank; //double also works
+  requireThat(z).not.beValidInt.and.not.beBlank; //double also works
 
-  z.should.equal('word');
+  requireThat(z).equal('word');
 
   print('evaluated 5 should statements');
 }

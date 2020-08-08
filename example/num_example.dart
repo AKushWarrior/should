@@ -1,4 +1,5 @@
 import 'package:should/should_num.dart';
+import 'package:should/should.dart';
 
 void main() {
   numExample();
@@ -7,13 +8,13 @@ void main() {
 void numExample() {
   var num = 2;
 
-  num.should.beMathematicalInt;
+  requireThat(num).beMathematicalInt;
 
-  num.should.bePrime.and.should.bePowerOfTwo;
+  requireThat(num).bePrime.and.bePowerOfTwo;
 
-  num.should.beWithin(4).of(8); //uh oh
+  requireThat(num).beWithin(4).of(8); //uh oh
 
-  num.should.equal(2.0);
+  requireThat(num).equal(2.0);
 
   print('evaluated 4 should statements');
 }

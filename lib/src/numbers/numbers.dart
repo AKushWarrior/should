@@ -2,16 +2,11 @@ import '../should_statement.dart';
 import 'dart:math';
 
 part 'modifier.dart';
-part 'extensions.dart';
 
-class BaseShouldNum extends BaseShouldObject {
-  BaseShouldNum(num obj, BaseShouldNum parent) : super(obj, parent);
-
-  static var _base;
-
+extension BaseShouldNum on BaseShouldObject<num> {
   Cap<num> beGreaterThan(num other) {
     var cap = Cap<num>((obj) {
-      num n = obj;
+      var n = obj;
       return n > other;
     }, this, 'be greater than other');
     finalEval(cap);
@@ -20,7 +15,7 @@ class BaseShouldNum extends BaseShouldObject {
 
   Cap<num> beLessThan(num other) {
     var cap = Cap<num>((obj) {
-      num n = obj;
+      var n = obj;
       return n < other;
     }, this, 'be less than other');
     finalEval(cap);
@@ -29,7 +24,7 @@ class BaseShouldNum extends BaseShouldObject {
 
   Cap<num> beLessThanOrEqualTo(num other) {
     var cap = Cap<num>((obj) {
-      num n = obj;
+      var n = obj;
       return n <= other;
     }, this, 'be less than or equal to other');
     finalEval(cap);
@@ -38,7 +33,7 @@ class BaseShouldNum extends BaseShouldObject {
 
   Cap<num> beGreaterThanOrEqualTo(num other) {
     var cap = Cap<num>((obj) {
-      num n = obj;
+      var n = obj;
       return n >= other;
     }, this, 'be greater than or equal to other');
     finalEval(cap);
@@ -47,7 +42,7 @@ class BaseShouldNum extends BaseShouldObject {
 
   Cap<num> get bePowerOfTwo {
     var cap = Cap<num>((obj) {
-      num n = obj;
+      var n = obj;
       if (!(n % 1 == 0.0)) {
         return false;
       }
@@ -62,7 +57,7 @@ class BaseShouldNum extends BaseShouldObject {
 
   Cap<num> get bePrime {
     var cap = Cap<num>((obj) {
-      num n = obj;
+      var n = obj;
       if (!(n % 1 == 0.0)) {
         return false;
       } else {
@@ -107,7 +102,7 @@ class BaseShouldNum extends BaseShouldObject {
 
   Cap<num> get beMathematicalInt {
     var cap = Cap<num>((obj) {
-      num n = obj;
+      var n = obj;
       return n % 1 == 0.0;
     }, this, 'be a mathematical integer');
     finalEval(cap);
@@ -116,13 +111,5 @@ class BaseShouldNum extends BaseShouldObject {
 
   UnfinishedWithin beWithin(num distance) {
     return UnfinishedWithin(obj, parent, distance);
-  }
-
-  @override
-  NumModifier get not {
-    var not = NumModifier((bool x) {
-      return !x;
-    }, obj, this, 'not');
-    return not;
   }
 }

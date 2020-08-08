@@ -1,3 +1,4 @@
+import 'package:should/should.dart';
 import 'package:should/should_collection.dart';
 
 void main() {
@@ -7,11 +8,11 @@ void main() {
 void collectExample() {
   var collect = [1, 2, 3];
 
-  collect.should.not.beEmpty;
+  requireThat(collect).not.beEmpty;
 
-  collect.should.contain(2);
+  requireThat(collect).contain(2);
 
-  collect.should.haveLengthOf(2); //looks like an error
+  requireThat(collect).haveLengthOf(2); //looks like an error
 
   print('evaluated 3 should statements');
 }
